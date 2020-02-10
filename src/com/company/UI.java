@@ -23,27 +23,23 @@ public class UI {
             try {
                 File myObj = new File("prospects.txt");
                 Scanner myReader = new Scanner(myObj);
-                boolean ignoreFirst = false;
+                boolean header = true;
                 int i = 1;
                 while (myReader.hasNextLine()) {
                     data = myReader.nextLine();
-                    if (data.length() == 0 || data.length() == 1) {
-                        continue;
-                    }
-                    if (ignoreFirst == true) {
                         items = Arrays.asList(data.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
-                        n = items.get(0).replaceAll("[\"]", "");
-                        n = n.replaceAll(",", " ");
-                        tot = Double.valueOf(items.get(1));
-                        intr = Double.valueOf(items.get(2));
-                        time = Double.valueOf(items.get(3));
-                        System.out.println(printAccs(i, n, tot, intr, time));
-                        i++;
-                    }
-                    ignoreFirst = true;
-
+                        if (items.size() != 4 || header) {
+                            header = false;
+                            continue;
+                        }
+                            n = items.get(0).replaceAll("[\"]", "");
+                            n = n.replaceAll(",", " ");
+                            tot = Double.valueOf(items.get(1));
+                            intr = Double.valueOf(items.get(2));
+                            time = Double.valueOf(items.get(3));
+                            System.out.println(printAccs(i, n, tot, intr, time));
+                            i++;
                 }
-
                 myReader.close();
 
             } catch (FileNotFoundException e) {
@@ -73,7 +69,7 @@ public class UI {
             return s;
         }
         public String printAccs(int p, String n, double tot, double intr, double time) {
-            return "Prospect " + p + ": " + n + " wants to borrow " + tot + "€ for a period of " + time + " years and pay " + fixedMonthlyPay(tot, intr, time) + "€ each month";
+            return "Prospect " + p + ": " + n + " wants to borrow " + roundNum(tot) + "€ for a period of " + time + " years and pay " + fixedMonthlyPay(tot, intr, time) + "€ each month";
         }
         public static String roundNum(double num) {
             String s = String.format("%.2f", num);
