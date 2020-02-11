@@ -14,10 +14,18 @@ public class UITest {
     }
 
     @org.junit.jupiter.api.Test
-    void fixedMonthlyPay() {
+    void fixedMonthlyPay_1200() {
         final String expected = "10,512";
-        //final String actual = UI.fixedMonthlyPay(1200, 1, 10);
-        //expected.equals(actual);
+        final String actual = UI.fixedMonthlyPay(1200, 1, 10);
+        expected.equals(actual);
+
     }
+    @org.junit.jupiter.api.Test
+    void fixedMonthlyPay_bigNum() {
+        final String expected = "824999,92";
+        final String actual = UI.fixedMonthlyPay(9999999, 99, 100);
+        expected.equals(actual);
+    }
+
 
 }
